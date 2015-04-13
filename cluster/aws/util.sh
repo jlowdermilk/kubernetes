@@ -600,7 +600,7 @@ function kube-up {
   echo "Kubernetes cluster created."
 
   # TODO use token instead of kube_auth
-  export KUBECONFIG="${KUBECONFIG:-"${HOME}/.kube/.kubeconfig"}"
+  export KUBECONFIG="${KUBECONFIG:-${HOME}/.kube/.kubeconfig}"
   export KUBE_CERT="/tmp/$RANDOM-kubecfg.crt"
   export KUBE_KEY="/tmp/$RANDOM-kubecfg.key"
   export CA_CERT="/tmp/$RANDOM-kubernetes.ca.crt"
@@ -613,9 +613,9 @@ function kube-up {
   (
     mkdir -p "${config_dir}"
     umask 077
-    ssh -oStrictHostKeyChecking=no -i "${AWS_SSH_KEY}" ubuntu@${KUBE_MASTER_IP} sudo cat /srv/kubernetes/kubecfg.crt >"${KUBE_CERT}" 2>$LOG
-    ssh -oStrictHostKeyChecking=no -i "${AWS_SSH_KEY}" ubuntu@${KUBE_MASTER_IP} sudo cat /srv/kubernetes/kubecfg.key >"${KUBE_KEY}" 2>$LOG
-    ssh -oStrictHostKeyChecking=no -i "${AWS_SSH_KEY}" ubuntu@${KUBE_MASTER_IP} sudo cat /srv/kubernetes/ca.crt >"${CA_CERT}" 2>$LOG
+    ssh -oStrictHostKeyChecking=no -i "${AWS_SSH_KEY}" "ubuntu@${KUBE_MASTER_IP}" sudo cat /srv/kubernetes/kubecfg.crt >"${KUBE_CERT}" 2>"$LOG"
+    ssh -oStrictHostKeyChecking=no -i "${AWS_SSH_KEY}" "ubuntu@${KUBE_MASTER_IP}" sudo cat /srv/kubernetes/kubecfg.key >"${KUBE_KEY}" 2>"$LOG"
+    ssh -oStrictHostKeyChecking=no -i "${AWS_SSH_KEY}" "ubuntu@${KUBE_MASTER_IP}" sudo cat /srv/kubernetes/ca.crt >"${CA_CERT}" 2>"$LOG"
 
     create-kubeconfig
   )
