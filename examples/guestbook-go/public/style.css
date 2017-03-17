@@ -3,14 +3,14 @@ body, input {
   font-family: "Gill Sans", sans-serif;
 }
 
-div {
+div.guestbook {
   overflow: hidden;
   padding: 1em 0;
   position: relative;
   text-align: center;
 }
 
-h1, h2, p, input, a {
+h1, h2, p, input {
   font-weight: 300;
   margin: 0;
 }
@@ -28,6 +28,7 @@ form {
   margin: 0 auto;
   max-width: 50em;
   text-align: center;
+  color: black;
 }
 
 input {
@@ -39,10 +40,10 @@ input {
   margin-bottom: 1em;
   outline: none;
   padding: .5em 5%;
-  width: 55%;
+  width: 200;
 }
 
-form a {
+/*form a {
   background: #BDB76B;
   border: 0;
   border-radius: 1000px;
@@ -53,7 +54,7 @@ form a {
   text-decoration: none;
   text-transform: uppercase;
   white-space: normal;
-}
+}*/
 
 p {
   font-size: 1.5em;

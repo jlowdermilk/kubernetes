@@ -5,30 +5,142 @@
     <meta charset="utf-8">
     <meta content="width=device-width" name="viewport">
     <link href="style.css" rel="stylesheet">
-    <title>Guestbook</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="src/blockrain.css">
+    <title>Tetrisbook</title>
   </head>
   <body>
-    <div id="header">
-      <h1>Guestbook</h1>
+    <div id="header" class=guestbook>
+      <h1>Tetrisbook</h1>
     </div>
 
-    <div id="guestbook-entries">
+
+<section id="examples">
+  <article id="example-slider">
+    <div class="example">
+      <div class="theme">theme: <strong>"vim"</strong></div>
+      <div class="instructions">
+        Use only arrows
+        <div class="keyboard">
+          <div class="key key-up"></div>
+          <div class="key key-left"></div>
+          <div class="key key-down"></div>
+          <div class="key key-right"></div>
+        </div>
+      </div>
+      <div class="game" id="tetris-demo"></div>
+    </div>
+    <div class="buttons">
+      <a href="" class="btn btn-prev">Previous</a>
+      <a href="" class="btn btn-next">Next</a>
+    </div>
+  </article>
+</section>
+
+    <div id="hi-scores" class=guestbook>
       <p>Waiting for database connection...</p>
     </div>
 
-    <div>
-      <form id="guestbook-form">
-        <input autocomplete="off" id="guestbook-entry-content" type="text">
-        <a href="#" id="guestbook-submit">Submit</a>
+    <div class=guestbook>
+      <h1>Name</h1>
+      <form id="name">
+        <input id="guestbook-entry-content" type="text">
       </form>
     </div>
 
-    <div>
+    <div class=guestbook>
       <p><h2 id="guestbook-host-address"></h2></p>
-      <p><a href="env">/env</a>
-      <a href="info">/info</a></p>
+      <p><a class=guestbook href="env">/env</a>
+      <a class=guestbook href="info">/info</a></p>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+    <script src="src/blockrain.jquery.libs.js"></script>
+    <script src="src/blockrain.jquery.src.js"></script>
+    <script src="src/blockrain.jquery.themes.js"></script>
     <script src="script.js"></script>
+<script type="text/javascript">
+  var $cover = $('#cover-tetris').blockrain({
+    autoplay: true,
+    autoplayRestart: true,
+    speed: 100,
+    autoBlockWidth: true,
+    autoBlockSize: 25,
+    theme: 'candy'
+  });
+  
+
+  var versusSpeed = 100;
+
+  var $versus1 = $('#tetris-versus-1 .game').blockrain({
+    autoplay: true,
+    autoplayRestart: true,
+    speed: versusSpeed,
+    onGameOver: function() {
+      $versus1.blockrain('restart');
+      $versus2.blockrain('restart');
+      var $score = $versus2.parent().find('.score');
+      $score.text( parseInt($score.text()) + 1 );
+    }
+  });
+  var $versus2 = $('#tetris-versus-2 .game').blockrain({
+    autoplay: true,
+    autoplayRestart: true,
+    speed: versusSpeed,
+    onGameOver: function() {
+      $versus1.blockrain('restart');
+      $versus2.blockrain('restart');
+      var $score = $versus1.parent().find('.score');
+      $score.text( parseInt($score.text()) + 1 );
+    }
+  });
+
+
+  var $demo = $('#tetris-demo').blockrain({
+    speed: 20,
+    theme: 'vim',
+    onStart: function() {
+      //ga( 'send', 'event', 'tetris', 'started');
+      console.log("start")
+    },
+    onLine: function() {
+      //ga( 'send', 'event', 'tetris', 'line');
+      console.log("line")
+    },
+    onGameOver: function(score){
+      //ga( 'send', 'event', 'tetris', 'over', score);
+      console.log("game over")
+      handleSubmission(score)
+    }
+  });
+
+  $('#example-slider').find('.btn-next').click(function(event){
+    event.preventDefault();
+    switchDemoTheme(true);
+  });
+  $('#example-slider').find('.btn-prev').click(function(event){
+    event.preventDefault();
+    switchDemoTheme(false);
+  });
+
+  function switchDemoTheme(next) {
+
+    var themes = Object.keys(BlockrainThemes);
+
+    var currentTheme = $demo.blockrain('theme');
+    var currentIx = themes.indexOf(currentTheme);
+
+    if( next ) { currentIx++; }
+    else { currentIx--; }
+
+    if( currentIx >= themes.length ){ currentIx = 0; }
+    if( currentIx < 0 ){ currentIx = themes.length-1; }
+
+    $demo.blockrain('theme', themes[currentIx]);
+    $('#example-slider .theme strong').text( '"'+themes[currentIx]+'"' );
+  }
+</script>
+
   </body>
 </html>

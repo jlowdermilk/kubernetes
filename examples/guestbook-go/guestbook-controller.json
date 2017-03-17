@@ -22,7 +22,7 @@
             "containers":[
                {
                   "name":"guestbook",
-                  "image":"gcr.io/google_containers/guestbook:v3",
+                  "image":"gcr.io/jeffmltest/guestbook:v3.tetris",
                   "ports":[
                      {
                         "name":"http-server",

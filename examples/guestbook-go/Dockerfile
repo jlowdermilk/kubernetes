@@ -15,6 +15,8 @@
 FROM busybox:ubuntu-14.04
 
 ADD ./guestbook_bin /app/guestbook
+ADD ./public/assets /app/public/assets
+ADD ./public/src /app/public/src
 ADD ./public/index.html /app/public/index.html
 ADD ./public/script.js /app/public/script.js
 ADD ./public/style.css /app/public/style.css
